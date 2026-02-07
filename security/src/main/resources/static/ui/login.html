@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankApp | Вход</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/ui/styles.css">
+</head>
+<body>
+<div class="ambient ambient-left"></div>
+<div class="ambient ambient-right"></div>
+
+<main class="page page-auth">
+    <header class="card hero">
+        <p class="eyebrow">BankApp</p>
+        <h1>Вход и регистрация</h1>
+        <p class="subtitle">
+            Для `CLIENT` откроется клиентская консоль, для `ADMIN` - админ-панель.
+        </p>
+        <span id="sessionBadge" class="session session-off">Не авторизован</span>
+    </header>
+
+    <section class="grid two">
+        <article class="card">
+            <h2>Вход</h2>
+            <form id="loginForm" class="stack">
+                <label>
+                    Username
+                    <input name="username" type="text" required placeholder="user1">
+                </label>
+                <label>
+                    Password
+                    <input name="password" type="password" required placeholder="pass">
+                </label>
+                <button type="submit">Войти</button>
+            </form>
+            <p class="hint">
+                JWT сохраняется в `localStorage` браузера.
+            </p>
+        </article>
+
+        <article class="card">
+            <h2>Регистрация CLIENT</h2>
+            <form id="registerForm" class="stack">
+                <label>
+                    Логин
+                    <input name="login" type="text" required minlength="3" maxlength="64" placeholder="user1">
+                </label>
+                <label>
+                    Пароль
+                    <input name="password" type="password" required minlength="3" maxlength="128" placeholder="pass">
+                </label>
+                <label>
+                    Имя
+                    <input name="name" type="text" required minlength="2" maxlength="64" placeholder="Nikita">
+                </label>
+                <div class="inline">
+                    <label>
+                        Возраст
+                        <input name="age" type="number" required min="1" step="1" value="20">
+                    </label>
+                    <label>
+                        Пол
+                        <select name="sex" required>
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                        </select>
+                    </label>
+                </div>
+                <label>
+                    Цвет волос
+                    <select name="hairColor" required>
+                        <option value="BLACK">BLACK</option>
+                        <option value="BROWN">BROWN</option>
+                        <option value="BLONDE">BLONDE</option>
+                        <option value="RED">RED</option>
+                        <option value="WHITE">WHITE</option>
+                        <option value="GRAY">GRAY</option>
+                    </select>
+                </label>
+                <button type="submit" class="secondary">Зарегистрироваться</button>
+            </form>
+        </article>
+    </section>
+
+    <section class="card">
+        <h2>Журнал</h2>
+        <pre id="logOutput" class="output log"></pre>
+    </section>
+</main>
+
+<script type="module" src="/ui/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankApp | Админ-панель</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/ui/styles.css">
+</head>
+<body>
+<div class="ambient ambient-left"></div>
+<div class="ambient ambient-right"></div>
+
+<main class="page">
+    <header class="card hero">
+        <p class="eyebrow">BankApp</p>
+        <h1>Админ-панель</h1>
+        <p class="subtitle">Управление пользователями, счетами и транзакциями.</p>
+        <div class="toolbar">
+            <span id="sessionBadge" class="session session-off">Не авторизован</span>
+            <button id="refreshButton" type="button" class="secondary">Обновить всё</button>
+            <button id="logoutButton" type="button" class="danger">Выйти</button>
+        </div>
+    </header>
+
+    <section class="grid two">
+        <article class="card">
+            <h2>Пользователи</h2>
+            <form id="usersFilterForm" class="inline">
+                <label class="fit">
+                    Hair color
+                    <select id="userHairColorFilter">
+                        <option value="">Любой</option>
+                        <option value="BLACK">BLACK</option>
+                        <option value="BROWN">BROWN</option>
+                        <option value="BLONDE">BLONDE</option>
+                        <option value="RED">RED</option>
+                        <option value="WHITE">WHITE</option>
+                        <option value="GRAY">GRAY</option>
+                    </select>
+                </label>
+                <label class="fit">
+                    Sex
+                    <select id="userSexFilter">
+                        <option value="">Любой</option>
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                    </select>
+                </label>
+                <button type="submit">Фильтровать</button>
+            </form>
+
+            <form id="userByIdForm" class="inline compact">
+                <label class="fit">
+                    User ID
+                    <input id="userIdInput" type="text" placeholder="00000000-0000-0000-0000-000000000000">
+                </label>
+                <button type="submit" class="secondary">Найти по ID</button>
+            </form>
+
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Login</th>
+                        <th>Name</th>
+                        <th>Sex</th>
+                        <th>Hair</th>
+                        <th>Возраст</th>
+                        <th>Счетов</th>
+                    </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+            <pre id="selectedUserOutput" class="output compact-output">Выбери пользователя для деталей.</pre>
+        </article>
+
+        <article class="card">
+            <h2>Счета</h2>
+            <form id="accountsByUserForm" class="inline">
+                <label class="fit">
+                    User ID
+                    <input id="accountsUserIdInput" type="text" placeholder="00000000-0000-0000-0000-000000000000">
+                </label>
+                <button type="submit">Счета пользователя</button>
+                <button id="loadAllAccountsButton" type="button" class="secondary">Все счета</button>
+            </form>
+
+            <form id="accountByIdForm" class="inline compact">
+                <label class="fit">
+                    Account ID
+                    <input id="accountIdInput" type="text" placeholder="00000000-0000-0000-0000-000000000000">
+                </label>
+                <button type="submit" class="secondary">Найти по ID</button>
+            </form>
+
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>Owner ID</th>
+                        <th>Balance</th>
+                        <th>Транзакций</th>
+                    </tr>
+                    </thead>
+                    <tbody id="accountsTableBody"></tbody>
+                </table>
+            </div>
+            <pre id="selectedAccountOutput" class="output compact-output">Выбери счет для деталей.</pre>
+        </article>
+    </section>
+
+    <section class="card">
+        <h2>Транзакции</h2>
+        <form id="transactionFilterForm" class="inline">
+            <label class="fit">
+                Тип
+                <select id="transactionTypeFilter">
+                    <option value="">Все</option>
+                    <option value="DEPOSIT">DEPOSIT</option>
+                    <option value="WITHDRAWAL">WITHDRAWAL</option>
+                    <option value="TRANSFER">TRANSFER</option>
+                </select>
+            </label>
+            <label class="fit">
+                Account ID
+                <input id="transactionAccountIdFilter" type="text" placeholder="опционально">
+            </label>
+            <button type="submit">Применить фильтр</button>
+        </form>
+        <div class="table-wrap">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Тип</th>
+                    <th>Сумма</th>
+                    <th>Account ID</th>
+                    <th>Transaction ID</th>
+                </tr>
+                </thead>
+                <tbody id="transactionsTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Kafka события</h2>
+        <form id="eventFilterForm" class="inline">
+            <label class="fit">
+                Source
+                <select id="eventSourceFilter">
+                    <option value="">ALL</option>
+                    <option value="USER">USER</option>
+                    <option value="ACCOUNT">ACCOUNT</option>
+                    <option value="TRANSACTION">TRANSACTION</option>
+                </select>
+            </label>
+            <label class="fit">
+                Event type
+                <input id="eventTypeFilter" type="text" placeholder="опционально">
+            </label>
+            <label class="fit">
+                Entity ID
+                <input id="eventEntityIdFilter" type="text" placeholder="опционально">
+            </label>
+            <label class="fit">
+                Correlation ID
+                <input id="eventCorrelationIdFilter" type="text" placeholder="опционально">
+            </label>
+            <label class="fit">
+                Tx type
+                <select id="eventTransactionTypeFilter">
+                    <option value="">Любой</option>
+                    <option value="DEPOSIT">DEPOSIT</option>
+                    <option value="WITHDRAWAL">WITHDRAWAL</option>
+                    <option value="TRANSFER">TRANSFER</option>
+                </select>
+            </label>
+            <label class="fit">
+                Limit
+                <input id="eventLimitInput" type="number" min="1" max="500" step="1" value="100">
+            </label>
+            <button type="submit">Применить фильтр</button>
+        </form>
+        <div class="table-wrap">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Event time</th>
+                    <th>Source</th>
+                    <th>Event type</th>
+                    <th>Entity ID</th>
+                    <th>Tx type</th>
+                    <th>Amount</th>
+                    <th>Correlation ID</th>
+                    <th>Event ID</th>
+                </tr>
+                </thead>
+                <tbody id="eventsTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Журнал</h2>
+        <pre id="logOutput" class="output log"></pre>
+    </section>
+</main>
+
+<script type="module" src="/ui/admin.js"></script>
+</body>
+</html>

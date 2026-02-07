@@ -1,0 +1,16 @@
+package org.nikitakapustkin.security.enums;
+
+public enum ErrorCode {
+    INVALID_ARGUMENT,
+    VALIDATION_ERROR,
+    NOT_FOUND,
+    ALREADY_EXISTS,
+    NOT_ENOUGH_MONEY,
+    IDEMPOTENCY_CONFLICT,
+    CONCURRENT_UPDATE,
+    METHOD_NOT_ALLOWED,
+    MESSAGE_NOT_READABLE,
+    INTERNAL_ERROR,
+    UNAUTHORIZED,
+    FORBIDDEN
+}

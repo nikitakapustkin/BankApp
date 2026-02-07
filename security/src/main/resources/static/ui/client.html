@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BankApp | Кабинет клиента</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/ui/styles.css">
+</head>
+<body>
+<div class="ambient ambient-left"></div>
+<div class="ambient ambient-right"></div>
+
+<main class="page">
+    <header class="card hero">
+        <p class="eyebrow">BankApp</p>
+        <h1>Кабинет клиента</h1>
+        <p class="subtitle">Профиль, друзья, счета, операции и история транзакций.</p>
+        <div class="toolbar">
+            <span id="sessionBadge" class="session session-off">Не авторизован</span>
+            <button id="refreshButton" type="button" class="secondary">Обновить всё</button>
+            <button id="logoutButton" type="button" class="danger">Выйти</button>
+        </div>
+    </header>
+
+    <section class="grid three">
+        <article class="card stat">
+            <h2>Счетов</h2>
+            <p id="accountCountValue" class="metric">0</p>
+        </article>
+        <article class="card stat">
+            <h2>Общий баланс</h2>
+            <p id="totalBalanceValue" class="metric">0</p>
+        </article>
+        <article class="card stat">
+            <h2>Транзакций</h2>
+            <p id="transactionsCountValue" class="metric">0</p>
+        </article>
+    </section>
+
+    <section class="grid two">
+        <article class="card">
+            <h2>Профиль</h2>
+            <pre id="profileOutput" class="output">Профиль не загружен.</pre>
+        </article>
+        <article class="card">
+            <h2>Друзья</h2>
+            <form id="friendForm" class="stack">
+                <label>
+                    Friend ID (UUID)
+                    <input name="friendId" type="text" required placeholder="00000000-0000-0000-0000-000000000000">
+                </label>
+                <div class="inline">
+                    <button id="addFriendButton" type="button">Добавить</button>
+                    <button id="removeFriendButton" type="button" class="secondary">Удалить</button>
+                </div>
+            </form>
+        </article>
+    </section>
+
+    <section class="grid two">
+        <article class="card">
+            <h2>Счета</h2>
+            <div class="inline">
+                <button id="createAccountButton" type="button">Создать счёт</button>
+                <button id="loadAccountsButton" type="button" class="secondary">Обновить счета</button>
+            </div>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Account ID</th>
+                        <th>Balance</th>
+                        <th>Транзакций</th>
+                    </tr>
+                    </thead>
+                    <tbody id="accountsTableBody"></tbody>
+                </table>
+            </div>
+        </article>
+
+        <article class="card">
+            <h2>Операции по счету</h2>
+            <label>
+                Счет
+                <select id="accountSelect">
+                    <option value="">Выбери счет</option>
+                </select>
+            </label>
+
+            <form id="depositForm" class="stack compact">
+                <label>
+                    Сумма пополнения
+                    <input name="amount" type="number" required min="0.01" step="0.01" placeholder="100.00">
+                </label>
+                <button type="submit">Пополнить</button>
+            </form>
+
+            <form id="withdrawForm" class="stack compact">
+                <label>
+                    Сумма списания
+                    <input name="amount" type="number" required min="0.01" step="0.01" placeholder="10.00">
+                </label>
+                <button type="submit">Списать</button>
+            </form>
+
+            <form id="transferForm" class="stack compact">
+                <label>
+                    To Account ID
+                    <input name="toAccountId" type="text" required placeholder="00000000-0000-0000-0000-000000000000">
+                </label>
+                <label>
+                    Сумма перевода
+                    <input name="amount" type="number" required min="0.01" step="0.01" placeholder="5.00">
+                </label>
+                <button type="submit">Перевести</button>
+            </form>
+        </article>
+    </section>
+
+    <section class="card">
+        <h2>Мои транзакции</h2>
+        <form id="transactionFilterForm" class="inline">
+            <label class="fit">
+                Тип
+                <select id="transactionTypeFilter">
+                    <option value="">Все</option>
+                    <option value="DEPOSIT">DEPOSIT</option>
+                    <option value="WITHDRAWAL">WITHDRAWAL</option>
+                    <option value="TRANSFER">TRANSFER</option>
+                </select>
+            </label>
+            <label class="fit">
+                Счет
+                <select id="transactionAccountFilter">
+                    <option value="">Все счета</option>
+                </select>
+            </label>
+            <button id="loadTransactionsButton" type="submit">Применить фильтр</button>
+        </form>
+
+        <div class="table-wrap">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Тип</th>
+                    <th>Сумма</th>
+                    <th>Account ID</th>
+                    <th>Transaction ID</th>
+                </tr>
+                </thead>
+                <tbody id="transactionsTableBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Журнал</h2>
+        <pre id="logOutput" class="output log"></pre>
+    </section>
+</main>
+
+<script type="module" src="/ui/client.js"></script>
+</body>
+</html>

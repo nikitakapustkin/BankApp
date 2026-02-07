@@ -1,0 +1,471 @@
+openapi: 3.0.3
+info:
+  title: Bank Service API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+
+tags:
+  - name: Users
+    description: User operations
+  - name: Accounts
+    description: Account operations
+  - name: Transactions
+    description: Transaction operations
+
+paths:
+  /users:
+    get:
+      tags: [Users]
+      operationId: getUsers
+      parameters:
+        - in: query
+          name: hairColor
+          required: false
+          schema:
+            $ref: '#/components/schemas/HairColor'
+        - in: query
+          name: sex
+          required: false
+          schema:
+            $ref: '#/components/schemas/Sex'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDto'
+
+  /users/{userId}:
+    get:
+      tags: [Users]
+      operationId: getUserInfo
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetailsResponseDto'
+    delete:
+      tags: [Users]
+      operationId: deleteUser
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+
+  /users/friends:
+    post:
+      tags: [Users]
+      operationId: addFriend
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequestDto'
+      responses:
+        '201':
+          description: Created
+    delete:
+      tags: [Users]
+      operationId: removeFriend
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequestDto'
+      responses:
+        '204':
+          description: No Content
+
+  /users/{userId}/friends:
+    get:
+      tags: [Users]
+      operationId: getUserFriends
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDto'
+
+  /users/{userId}/accounts:
+    get:
+      tags: [Users]
+      operationId: getUserAccounts
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountResponseDto'
+
+  /accounts:
+    get:
+      tags: [Accounts]
+      operationId: getAccounts
+      parameters:
+        - in: query
+          name: userId
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountResponseDto'
+    post:
+      tags: [Accounts]
+      operationId: createAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequestDto'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponseDto'
+
+  /accounts/{accountId}:
+    get:
+      tags: [Accounts]
+      operationId: getAccount
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDetailsResponseDto'
+
+  /accounts/{accountId}/balance:
+    get:
+      tags: [Accounts]
+      operationId: getAccountBalance
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: number
+
+  /accounts/{accountId}/deposit:
+    post:
+      tags: [Accounts]
+      operationId: deposit
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositRequestDto'
+      responses:
+        '200':
+          description: OK
+
+  /accounts/{accountId}/withdraw:
+    post:
+      tags: [Accounts]
+      operationId: withdraw
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WithdrawRequestDto'
+      responses:
+        '200':
+          description: OK
+
+  /accounts/{fromAccountId}/transfer:
+    post:
+      tags: [Accounts]
+      operationId: transfer
+      parameters:
+        - in: path
+          name: fromAccountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequestDto'
+      responses:
+        '200':
+          description: OK
+
+  /transactions:
+    get:
+      tags: [Transactions]
+      operationId: getTransactions
+      parameters:
+        - in: query
+          name: type
+          required: false
+          schema:
+            $ref: '#/components/schemas/TransactionType'
+        - in: query
+          name: accountId
+          required: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponseDto'
+
+components:
+  schemas:
+    Sex:
+      type: string
+      enum: [MALE, FEMALE]
+
+    HairColor:
+      type: string
+      enum: [BLONDE, BLACK, RED, BROWN, WHITE, GRAY]
+
+    TransactionType:
+      type: string
+      enum: [DEPOSIT, WITHDRAWAL, TRANSFER]
+
+    CreateAccountRequestDto:
+      type: object
+      required: [ownerId]
+      properties:
+        ownerId:
+          type: string
+          format: uuid
+
+    FriendRequestDto:
+      type: object
+      required: [userId, friendId]
+      properties:
+        userId:
+          type: string
+          format: uuid
+        friendId:
+          type: string
+          format: uuid
+
+    DepositRequestDto:
+      type: object
+      required: [amount]
+      properties:
+        amount:
+          type: number
+
+    WithdrawRequestDto:
+      type: object
+      required: [amount]
+      properties:
+        amount:
+          type: number
+
+    TransferRequestDto:
+      type: object
+      required: [toAccountId, amount]
+      properties:
+        toAccountId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+
+    UserResponseDto:
+      type: object
+      required: [id, login, name, age, sex, hairColor, friendsLogins]
+      properties:
+        id:
+          type: string
+          format: uuid
+        login:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+        sex:
+          $ref: '#/components/schemas/Sex'
+        hairColor:
+          $ref: '#/components/schemas/HairColor'
+        friendsLogins:
+          type: array
+          items:
+            type: string
+
+    UserDetailsResponseDto:
+      type: object
+      required: [user, friendsLogins, accounts]
+      properties:
+        user:
+          $ref: '#/components/schemas/UserResponseDto'
+        friendsLogins:
+          type: array
+          items:
+            type: string
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountResponseDto'
+
+    AccountResponseDto:
+      type: object
+      required: [id, ownerId, balance]
+      properties:
+        id:
+          type: string
+          format: uuid
+        ownerId:
+          type: string
+          format: uuid
+        balance:
+          type: number
+
+    AccountDetailsResponseDto:
+      type: object
+      required: [account, transactions]
+      properties:
+        account:
+          $ref: '#/components/schemas/AccountResponseDto'
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransactionResponseDto'
+
+    TransactionResponseDto:
+      type: object
+      required: [id, accountId, type, amount, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/TransactionType'
+        amount:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+
+    ApiError:
+      type: object
+      required: [timestamp, status, error, message, path]
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          $ref: '#/components/schemas/ErrorCode'
+        message:
+          type: string
+        path:
+          type: string
+
+    ErrorCode:
+      type: string
+      enum:
+        - INVALID_ARGUMENT
+        - VALIDATION_ERROR
+        - NOT_FOUND
+        - ALREADY_EXISTS
+        - NOT_ENOUGH_MONEY
+        - CONCURRENT_UPDATE
+        - METHOD_NOT_ALLOWED
+        - MESSAGE_NOT_READABLE
+        - INTERNAL_ERROR
