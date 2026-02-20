@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories
 public class StorageApplication {
-    public static void main(String[] args) {
-        org.springframework.boot.SpringApplication.run(StorageApplication.class, args);
-    }
+  public static void main(String[] args) {
+    org.springframework.boot.SpringApplication.run(StorageApplication.class, args);
+  }
 }

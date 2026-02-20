@@ -12,14 +12,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "accounts")
@@ -28,25 +27,29 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AccountEntity {
 
-    @Version
-    @Column(nullable = false)
-    private long version;
+  @Version
+  @Column(nullable = false)
+  private long version;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "account_id", columnDefinition = "uuid")
-    private UUID accountId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(name = "account_id", columnDefinition = "uuid")
+  private UUID accountId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  private UserEntity user;
 
-    @Column(name = "owner_login", nullable = false)
-    private String ownerLogin;
+  @Column(name = "owner_login", nullable = false)
+  private String ownerLogin;
 
-    @Column(nullable = false)
-    private BigDecimal balance;
+  @Column(nullable = false)
+  private BigDecimal balance;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TransactionEntity> transactions = new ArrayList<>();
+  @OneToMany(
+      mappedBy = "account",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  private List<TransactionEntity> transactions = new ArrayList<>();
 }

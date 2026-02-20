@@ -1,5 +1,7 @@
 package org.nikitakapustkin.storage.adapters.out.persistence;
 
+import java.util.List;
+import java.util.UUID;
 import org.nikitakapustkin.storage.application.ports.out.AccountEventRepositoryPort;
 import org.nikitakapustkin.storage.events.AccountEvent;
 import org.springframework.data.domain.Pageable;
@@ -8,12 +10,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.UUID;
-
 @Repository
-public interface AccountEventRepository extends JpaRepository<AccountEvent, UUID>, AccountEventRepositoryPort {
-    @Query("""
+public interface AccountEventRepository
+    extends JpaRepository<AccountEvent, UUID>, AccountEventRepositoryPort {
+  @Query(
+      """
             select e
             from AccountEvent e
             where (:eventType is null or lower(e.eventType) = :eventType)
@@ -21,10 +22,9 @@ public interface AccountEventRepository extends JpaRepository<AccountEvent, UUID
               and (:correlationId is null or e.correlationId = :correlationId)
             order by e.eventTime desc, e.id desc
             """)
-    List<AccountEvent> findEvents(
-            @Param("eventType") String eventType,
-            @Param("accountId") UUID accountId,
-            @Param("correlationId") UUID correlationId,
-            Pageable pageable
-    );
+  List<AccountEvent> findEvents(
+      @Param("eventType") String eventType,
+      @Param("accountId") UUID accountId,
+      @Param("correlationId") UUID correlationId,
+      Pageable pageable);
 }

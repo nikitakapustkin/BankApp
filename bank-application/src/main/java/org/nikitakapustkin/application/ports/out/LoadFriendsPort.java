@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LoadFriendsPort {
-    List<UUID> loadFriendsIds(UUID userId);
+  List<UUID> loadFriendsIds(UUID userId);
 }

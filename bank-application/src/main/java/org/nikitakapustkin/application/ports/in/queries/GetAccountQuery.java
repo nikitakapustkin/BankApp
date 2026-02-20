@@ -1,9 +1,8 @@
 package org.nikitakapustkin.application.ports.in.queries;
 
+import java.util.UUID;
 import org.nikitakapustkin.domain.models.Account;
 
-import java.util.UUID;
-
 public interface GetAccountQuery {
-    Account getAccount(UUID accountId);
+  Account getAccount(UUID accountId);
 }

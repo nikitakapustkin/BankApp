@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class PasswordEncoderAdapter implements PasswordHasherPort {
-    private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public String encode(String rawPassword) {
-        return passwordEncoder.encode(rawPassword);
-    }
+  @Override
+  public String encode(String rawPassword) {
+    return passwordEncoder.encode(rawPassword);
+  }
 }

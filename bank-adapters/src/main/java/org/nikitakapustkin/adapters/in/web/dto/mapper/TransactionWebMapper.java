@@ -8,20 +8,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransactionWebMapper {
 
-    public TransactionResponseDto toResponse(Transaction t) {
-        return new TransactionResponseDto(
-                t.getId(),
-                t.getAccountId(),
-                toContractType(t.getTransactionType()),
-                t.getAmount(),
-                t.getCreatedAt()
-        );
-    }
+  public TransactionResponseDto toResponse(Transaction t) {
+    return new TransactionResponseDto(
+        t.getId(),
+        t.getAccountId(),
+        toContractType(t.getTransactionType()),
+        t.getAmount(),
+        t.getCreatedAt());
+  }
 
-    private static TransactionType toContractType(org.nikitakapustkin.domain.enums.TransactionType type) {
-        if (type == null) {
-            return null;
-        }
-        return TransactionType.valueOf(type.name());
+  private static TransactionType toContractType(
+      org.nikitakapustkin.domain.enums.TransactionType type) {
+    if (type == null) {
+      return null;
     }
+    return TransactionType.valueOf(type.name());
+  }
 }

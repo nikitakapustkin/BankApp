@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "maintenance.cleanup")
 public class MaintenanceCleanupProperties {
-    private long outboxRetentionDays = 7;
-    private String cron = "0 0 3 * * *";
+  private long outboxRetentionDays = 7;
+  private String cron = "0 0 3 * * *";
 }

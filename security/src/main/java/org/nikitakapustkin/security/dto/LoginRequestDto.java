@@ -11,8 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequestDto {
-    @NotBlank(message = "Username is required")
-    private String username;
-    @NotBlank(message = "Password is required")
-    private String password;
+  @NotBlank(message = "Username is required")
+  private String username;
+
+  @NotBlank(message = "Password is required")
+  private String password;
 }

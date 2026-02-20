@@ -5,13 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.Instant;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -19,47 +18,48 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountEvent {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "uuid")
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(columnDefinition = "uuid")
+  private UUID id;
 
-    @Column(name = "event_id", columnDefinition = "uuid", unique = true)
-    private UUID eventId;
+  @Column(name = "event_id", columnDefinition = "uuid", unique = true)
+  private UUID eventId;
 
-    @Column(name = "correlation_id", columnDefinition = "uuid")
-    private UUID correlationId;
+  @Column(name = "correlation_id", columnDefinition = "uuid")
+  private UUID correlationId;
 
-    @Column(name = "account_id", columnDefinition = "uuid")
-    private UUID accountId;
+  @Column(name = "account_id", columnDefinition = "uuid")
+  private UUID accountId;
 
-    private String eventType;
+  private String eventType;
 
-    private Instant eventTime;
+  private Instant eventTime;
 
-    private String eventDescription;
+  private String eventDescription;
 
-    @Column(name = "payload_type")
-    private String payloadType;
+  @Column(name = "payload_type")
+  private String payloadType;
 
-    @Column(name = "payload", columnDefinition = "text")
-    private String payload;
+  @Column(name = "payload", columnDefinition = "text")
+  private String payload;
 
-    public AccountEvent(UUID eventId,
-                        UUID correlationId,
-                        UUID accountId,
-                        String eventType,
-                        Instant eventTime,
-                        String eventDescription,
-                        String payloadType,
-                        String payload) {
-        this.eventId = eventId;
-        this.correlationId = correlationId;
-        this.accountId = accountId;
-        this.eventType = eventType;
-        this.eventTime = eventTime;
-        this.eventDescription = eventDescription;
-        this.payloadType = payloadType;
-        this.payload = payload;
-    }
+  public AccountEvent(
+      UUID eventId,
+      UUID correlationId,
+      UUID accountId,
+      String eventType,
+      Instant eventTime,
+      String eventDescription,
+      String payloadType,
+      String payload) {
+    this.eventId = eventId;
+    this.correlationId = correlationId;
+    this.accountId = accountId;
+    this.eventType = eventType;
+    this.eventTime = eventTime;
+    this.eventDescription = eventDescription;
+    this.payloadType = payloadType;
+    this.payload = payload;
+  }
 }

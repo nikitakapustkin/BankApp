@@ -18,31 +18,28 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationServiceConfig {
 
-    @Bean
-    public AuthenticationService authenticationService(
-            CredentialsAuthenticatorPort authenticator,
-            JwtIssuerPort jwtIssuer
-    ) {
-        return new AuthenticationService(authenticator, jwtIssuer);
-    }
+  @Bean
+  public AuthenticationService authenticationService(
+      CredentialsAuthenticatorPort authenticator, JwtIssuerPort jwtIssuer) {
+    return new AuthenticationService(authenticator, jwtIssuer);
+  }
 
-    @Bean
-    public UserService userService(
-            UserRepositoryPort userRepository,
-            UserBankClientPort userBankClient,
-            PasswordHasherPort passwordHasher,
-            UserEventPublisherPort userEventPublisher
-    ) {
-        return new UserService(userRepository, userBankClient, passwordHasher, userEventPublisher);
-    }
+  @Bean
+  public UserService userService(
+      UserRepositoryPort userRepository,
+      UserBankClientPort userBankClient,
+      PasswordHasherPort passwordHasher,
+      UserEventPublisherPort userEventPublisher) {
+    return new UserService(userRepository, userBankClient, passwordHasher, userEventPublisher);
+  }
 
-    @Bean
-    public AccountService accountService(AccountBankClientPort accountBankClient) {
-        return new AccountService(accountBankClient);
-    }
+  @Bean
+  public AccountService accountService(AccountBankClientPort accountBankClient) {
+    return new AccountService(accountBankClient);
+  }
 
-    @Bean
-    public EventService eventService(StorageEventClientPort storageEventClient) {
-        return new EventService(storageEventClient);
-    }
+  @Bean
+  public EventService eventService(StorageEventClientPort storageEventClient) {
+    return new EventService(storageEventClient);
+  }
 }

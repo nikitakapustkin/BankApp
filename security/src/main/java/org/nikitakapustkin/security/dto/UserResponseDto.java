@@ -1,25 +1,24 @@
 package org.nikitakapustkin.security.dto;
 
-import lombok.Value;
-
 import java.util.List;
 import java.util.UUID;
+import lombok.Value;
 
 @Value
 public class UserResponseDto {
-    private UUID id;
+  private UUID id;
 
-    private String login;
+  private String login;
 
-    private String name;
+  private String name;
 
-    private int age;
+  private int age;
 
-    private String sex;
+  private String sex;
 
-    private String hairColor;
+  private String hairColor;
 
-    private List<String> friendsLogins;
+  private List<String> friendsLogins;
 
-    private List<AccountResponseDto> accounts;
+  private List<AccountResponseDto> accounts;
 }

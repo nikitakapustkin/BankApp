@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "kafka.consumer")
 public class BankKafkaConsumerProperties {
-    private String groupId;
-    private String dltSuffix = ".dlt";
-    private long backoffMs = 1000;
-    private long maxRetries = 3;
+  private String groupId;
+  private String dltSuffix = ".dlt";
+  private long backoffMs = 1000;
+  private long maxRetries = 3;
 }

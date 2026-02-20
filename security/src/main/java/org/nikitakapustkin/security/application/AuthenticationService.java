@@ -9,14 +9,15 @@ import org.nikitakapustkin.security.exceptions.AuthenticationFailedException;
 
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final CredentialsAuthenticatorPort authenticator;
-    private final JwtIssuerPort jwtIssuer;
+  private final CredentialsAuthenticatorPort authenticator;
+  private final JwtIssuerPort jwtIssuer;
 
-    public String authenticate(LoginRequestDto loginRequest) {
-        AuthenticatedUser user = authenticator.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-        if (user == null) {
-            throw new AuthenticationFailedException("Invalid username or password");
-        }
-        return jwtIssuer.generateToken(user.username(), user.userId(), user.role());
+  public String authenticate(LoginRequestDto loginRequest) {
+    AuthenticatedUser user =
+        authenticator.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+    if (user == null) {
+      throw new AuthenticationFailedException("Invalid username or password");
     }
+    return jwtIssuer.generateToken(user.username(), user.userId(), user.role());
+  }
 }

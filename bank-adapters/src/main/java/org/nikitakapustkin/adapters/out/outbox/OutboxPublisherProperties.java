@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "outbox.publisher")
 public class OutboxPublisherProperties {
-    private int batchSize = 100;
-    private long publishTimeoutMs = 5000;
-    private int maxAttempts = 5;
-    private long intervalMs = 1000;
+  private int batchSize = 100;
+  private long publishTimeoutMs = 5000;
+  private int maxAttempts = 5;
+  private long intervalMs = 1000;
 }

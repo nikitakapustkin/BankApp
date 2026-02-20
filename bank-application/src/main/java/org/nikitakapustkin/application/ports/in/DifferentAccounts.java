@@ -2,7 +2,6 @@ package org.nikitakapustkin.application.ports.in;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,7 +13,9 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = DifferentAccountsValidator.class)
 @Documented
 public @interface DifferentAccounts {
-    String message() default "fromAccountId and toAccountId must be different";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
+  String message() default "fromAccountId and toAccountId must be different";
+
+  Class<?>[] groups() default {};
+
+  Class<? extends Payload>[] payload() default {};
 }

@@ -15,41 +15,41 @@ import org.nikitakapustkin.domain.models.User;
 @RequiredArgsConstructor
 public class CreateUserService implements CreateUserUseCase {
 
-    private final LoadUserPort loadUserPort;
-    private final CreateUserPort createUserPort;
-    private final PublishUserEventPort publishUserEventPort;
+  private final LoadUserPort loadUserPort;
+  private final CreateUserPort createUserPort;
+  private final PublishUserEventPort publishUserEventPort;
 
-    @Override
-    public User createUser(CreateUserCommand cmd) {
-        if (loadUserPort.loadUserByLogin(cmd.getLogin()).isPresent()) {
-            throw new UserAlreadyExistsException("User already exists: " + cmd.getLogin());
-        }
-
-        var user = User.builder()
-                .login(cmd.getLogin())
-                .name(cmd.getName())
-                .age(cmd.getAge())
-                .sex(cmd.getSex())
-                .hairColor(cmd.getHairColor())
-                .build();
-
-        var created = createUserPort.create(user);
-        String description = "User created: " + created.getLogin();
-        publishUserEventPort.publishUserEvent(DomainEvent.now(
-                created.getId(),
-                EventType.USER_CREATED,
-                description,
-                null,
-                new UserCreatedEventData(
-                        created.getId(),
-                        created.getLogin(),
-                        created.getName(),
-                        created.getAge(),
-                        created.getSex(),
-                        created.getHairColor(),
-                        description
-                )
-        ));
-        return created;
+  @Override
+  public User createUser(CreateUserCommand cmd) {
+    if (loadUserPort.loadUserByLogin(cmd.getLogin()).isPresent()) {
+      throw new UserAlreadyExistsException("User already exists: " + cmd.getLogin());
     }
+
+    var user =
+        User.builder()
+            .login(cmd.getLogin())
+            .name(cmd.getName())
+            .age(cmd.getAge())
+            .sex(cmd.getSex())
+            .hairColor(cmd.getHairColor())
+            .build();
+
+    var created = createUserPort.create(user);
+    String description = "User created: " + created.getLogin();
+    publishUserEventPort.publishUserEvent(
+        DomainEvent.now(
+            created.getId(),
+            EventType.USER_CREATED,
+            description,
+            null,
+            new UserCreatedEventData(
+                created.getId(),
+                created.getLogin(),
+                created.getName(),
+                created.getAge(),
+                created.getSex(),
+                created.getHairColor(),
+                description)));
+    return created;
+  }
 }

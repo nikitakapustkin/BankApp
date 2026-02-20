@@ -1,5 +1,6 @@
 package org.nikitakapustkin.config;
 
+import java.math.BigDecimal;
 import org.nikitakapustkin.application.ports.in.AddFriendUseCase;
 import org.nikitakapustkin.application.ports.in.CreateAccountUseCase;
 import org.nikitakapustkin.application.ports.in.CreateUserUseCase;
@@ -51,157 +52,139 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.math.BigDecimal;
-
 @Configuration
 public class ApplicationServiceConfig {
 
-    @Bean
-    public CommissionPolicy commissionPolicy(
-            @Value("${transfer.commission.friends:0.03}") BigDecimal friendsRate,
-            @Value("${transfer.commission.others:0.10}") BigDecimal othersRate
-    ) {
-        return new DefaultCommissionPolicy(friendsRate, othersRate);
-    }
+  @Bean
+  public CommissionPolicy commissionPolicy(
+      @Value("${transfer.commission.friends:0.03}") BigDecimal friendsRate,
+      @Value("${transfer.commission.others:0.10}") BigDecimal othersRate) {
+    return new DefaultCommissionPolicy(friendsRate, othersRate);
+  }
 
-    @Bean
-    public AddFriendUseCase addFriendUseCase(
-            LoadUserPort loadUserPort,
-            UpdateFriendsPort updateFriendsPort,
-            PublishUserEventPort publishUserEventPort
-    ) {
-        return new AddFriendService(loadUserPort, updateFriendsPort, publishUserEventPort);
-    }
+  @Bean
+  public AddFriendUseCase addFriendUseCase(
+      LoadUserPort loadUserPort,
+      UpdateFriendsPort updateFriendsPort,
+      PublishUserEventPort publishUserEventPort) {
+    return new AddFriendService(loadUserPort, updateFriendsPort, publishUserEventPort);
+  }
 
-    @Bean
-    public RemoveFriendUseCase removeFriendUseCase(
-            LoadUserPort loadUserPort,
-            UpdateFriendsPort updateFriendsPort,
-            PublishUserEventPort publishUserEventPort
-    ) {
-        return new RemoveFriendService(loadUserPort, updateFriendsPort, publishUserEventPort);
-    }
+  @Bean
+  public RemoveFriendUseCase removeFriendUseCase(
+      LoadUserPort loadUserPort,
+      UpdateFriendsPort updateFriendsPort,
+      PublishUserEventPort publishUserEventPort) {
+    return new RemoveFriendService(loadUserPort, updateFriendsPort, publishUserEventPort);
+  }
 
-    @Bean
-    public CreateUserUseCase createUserUseCase(
-            LoadUserPort loadUserPort,
-            CreateUserPort createUserPort,
-            PublishUserEventPort publishUserEventPort
-    ) {
-        return new CreateUserService(loadUserPort, createUserPort, publishUserEventPort);
-    }
+  @Bean
+  public CreateUserUseCase createUserUseCase(
+      LoadUserPort loadUserPort,
+      CreateUserPort createUserPort,
+      PublishUserEventPort publishUserEventPort) {
+    return new CreateUserService(loadUserPort, createUserPort, publishUserEventPort);
+  }
 
-    @Bean
-    public ImportUserUseCase importUserUseCase(
-            LoadUserPort loadUserPort,
-            CreateUserPort createUserPort
-    ) {
-        return new ImportUserService(loadUserPort, createUserPort);
-    }
+  @Bean
+  public ImportUserUseCase importUserUseCase(
+      LoadUserPort loadUserPort, CreateUserPort createUserPort) {
+    return new ImportUserService(loadUserPort, createUserPort);
+  }
 
-    @Bean
-    public DeleteUserUseCase deleteUserUseCase(DeleteUserPort deleteUserPort) {
-        return new DeleteUserService(deleteUserPort);
-    }
+  @Bean
+  public DeleteUserUseCase deleteUserUseCase(DeleteUserPort deleteUserPort) {
+    return new DeleteUserService(deleteUserPort);
+  }
 
-    @Bean
-    public CreateAccountUseCase createAccountUseCase(
-            LoadUserPort loadUserPort,
-            CreateAccountPort createAccountPort,
-            PublishAccountEventPort publishAccountEventPort
-    ) {
-        return new CreateAccountService(loadUserPort, createAccountPort, publishAccountEventPort);
-    }
+  @Bean
+  public CreateAccountUseCase createAccountUseCase(
+      LoadUserPort loadUserPort,
+      CreateAccountPort createAccountPort,
+      PublishAccountEventPort publishAccountEventPort) {
+    return new CreateAccountService(loadUserPort, createAccountPort, publishAccountEventPort);
+  }
 
-    @Bean
-    public DepositMoneyUseCase depositMoneyUseCase(
-            LoadAccountPort loadAccountPort,
-            UpdateAccountStatePort updateAccountStatePort,
-            RecordTransactionPort recordTransactionPort,
-            PublishAccountEventPort publishAccountEventPort,
-            PublishTransactionEventPort publishTransactionEventPort
-    ) {
-        return new DepositMoneyService(
-                loadAccountPort,
-                updateAccountStatePort,
-                recordTransactionPort,
-                publishAccountEventPort,
-                publishTransactionEventPort
-        );
-    }
+  @Bean
+  public DepositMoneyUseCase depositMoneyUseCase(
+      LoadAccountPort loadAccountPort,
+      UpdateAccountStatePort updateAccountStatePort,
+      RecordTransactionPort recordTransactionPort,
+      PublishAccountEventPort publishAccountEventPort,
+      PublishTransactionEventPort publishTransactionEventPort) {
+    return new DepositMoneyService(
+        loadAccountPort,
+        updateAccountStatePort,
+        recordTransactionPort,
+        publishAccountEventPort,
+        publishTransactionEventPort);
+  }
 
-    @Bean
-    public WithdrawMoneyUseCase withdrawMoneyUseCase(
-            LoadAccountPort loadAccountPort,
-            UpdateAccountStatePort updateAccountStatePort,
-            RecordTransactionPort recordTransactionPort,
-            PublishAccountEventPort publishAccountEventPort,
-            PublishTransactionEventPort publishTransactionEventPort
-    ) {
-        return new WithdrawMoneyService(
-                loadAccountPort,
-                updateAccountStatePort,
-                recordTransactionPort,
-                publishAccountEventPort,
-                publishTransactionEventPort
-        );
-    }
+  @Bean
+  public WithdrawMoneyUseCase withdrawMoneyUseCase(
+      LoadAccountPort loadAccountPort,
+      UpdateAccountStatePort updateAccountStatePort,
+      RecordTransactionPort recordTransactionPort,
+      PublishAccountEventPort publishAccountEventPort,
+      PublishTransactionEventPort publishTransactionEventPort) {
+    return new WithdrawMoneyService(
+        loadAccountPort,
+        updateAccountStatePort,
+        recordTransactionPort,
+        publishAccountEventPort,
+        publishTransactionEventPort);
+  }
 
-    @Bean
-    public TransferMoneyUseCase transferMoneyUseCase(
-            LoadAccountPort loadAccountPort,
-            UpdateAccountStatePort updateAccountStatePort,
-            LoadFriendsPort loadFriendsPort,
-            RecordTransactionPort recordTransactionPort,
-            PublishAccountEventPort publishAccountEventPort,
-            PublishTransactionEventPort publishTransactionEventPort,
-            CommissionPolicy commissionPolicy
-    ) {
-        return new TransferMoneyService(
-                loadAccountPort,
-                updateAccountStatePort,
-                loadFriendsPort,
-                recordTransactionPort,
-                publishAccountEventPort,
-                publishTransactionEventPort,
-                commissionPolicy
-        );
-    }
+  @Bean
+  public TransferMoneyUseCase transferMoneyUseCase(
+      LoadAccountPort loadAccountPort,
+      UpdateAccountStatePort updateAccountStatePort,
+      LoadFriendsPort loadFriendsPort,
+      RecordTransactionPort recordTransactionPort,
+      PublishAccountEventPort publishAccountEventPort,
+      PublishTransactionEventPort publishTransactionEventPort,
+      CommissionPolicy commissionPolicy) {
+    return new TransferMoneyService(
+        loadAccountPort,
+        updateAccountStatePort,
+        loadFriendsPort,
+        recordTransactionPort,
+        publishAccountEventPort,
+        publishTransactionEventPort,
+        commissionPolicy);
+  }
 
-    @Bean
-    public GetUsersQuery getUsersQuery(LoadUsersPort loadUsersPort) {
-        return new GetUsersQueryService(loadUsersPort);
-    }
+  @Bean
+  public GetUsersQuery getUsersQuery(LoadUsersPort loadUsersPort) {
+    return new GetUsersQueryService(loadUsersPort);
+  }
 
-    @Bean
-    public GetUserDetailsQuery getUserDetailsQuery(
-            LoadUserPort loadUserPort,
-            LoadFriendsPort loadFriendsPort,
-            LoadAccountsPort loadAccountsPort
-    ) {
-        return new GetUserDetailsQueryService(loadUserPort, loadFriendsPort, loadAccountsPort);
-    }
+  @Bean
+  public GetUserDetailsQuery getUserDetailsQuery(
+      LoadUserPort loadUserPort,
+      LoadFriendsPort loadFriendsPort,
+      LoadAccountsPort loadAccountsPort) {
+    return new GetUserDetailsQueryService(loadUserPort, loadFriendsPort, loadAccountsPort);
+  }
 
-    @Bean
-    public GetUserFriendsQuery getUserFriendsQuery(
-            LoadUserPort loadUserPort,
-            LoadFriendsPort loadFriendsPort
-    ) {
-        return new GetUserFriendsQueryService(loadUserPort, loadFriendsPort);
-    }
+  @Bean
+  public GetUserFriendsQuery getUserFriendsQuery(
+      LoadUserPort loadUserPort, LoadFriendsPort loadFriendsPort) {
+    return new GetUserFriendsQueryService(loadUserPort, loadFriendsPort);
+  }
 
-    @Bean
-    public GetAccountsQuery getAccountsQuery(LoadAccountsPort loadAccountsPort) {
-        return new GetAccountsQueryService(loadAccountsPort);
-    }
+  @Bean
+  public GetAccountsQuery getAccountsQuery(LoadAccountsPort loadAccountsPort) {
+    return new GetAccountsQueryService(loadAccountsPort);
+  }
 
-    @Bean
-    public GetAccountQuery getAccountQuery(LoadAccountPort loadAccountPort) {
-        return new GetAccountQueryService(loadAccountPort);
-    }
+  @Bean
+  public GetAccountQuery getAccountQuery(LoadAccountPort loadAccountPort) {
+    return new GetAccountQueryService(loadAccountPort);
+  }
 
-    @Bean
-    public GetTransactionsQuery getTransactionsQuery(LoadTransactionsPort loadTransactionsPort) {
-        return new GetTransactionsQueryService(loadTransactionsPort);
-    }
+  @Bean
+  public GetTransactionsQuery getTransactionsQuery(LoadTransactionsPort loadTransactionsPort) {
+    return new GetTransactionsQueryService(loadTransactionsPort);
+  }
 }

@@ -14,30 +14,30 @@ import org.nikitakapustkin.domain.exceptions.UserNotFoundException;
 @RequiredArgsConstructor
 public class AddFriendService implements AddFriendUseCase {
 
-    private final LoadUserPort loadUserPort;
-    private final UpdateFriendsPort updateFriendsPort;
-    private final PublishUserEventPort publishUserEventPort;
+  private final LoadUserPort loadUserPort;
+  private final UpdateFriendsPort updateFriendsPort;
+  private final PublishUserEventPort publishUserEventPort;
 
-    @Override
-    public void addFriend(AddFriendCommand cmd) {
-        var user = loadUserPort.loadUserById(cmd.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("User not found: " + cmd.getUserId()));
-        var friend = loadUserPort.loadUserById(cmd.getFriendId())
-                .orElseThrow(() -> new UserNotFoundException("User not found: " + cmd.getFriendId()));
+  @Override
+  public void addFriend(AddFriendCommand cmd) {
+    var user =
+        loadUserPort
+            .loadUserById(cmd.getUserId())
+            .orElseThrow(() -> new UserNotFoundException("User not found: " + cmd.getUserId()));
+    var friend =
+        loadUserPort
+            .loadUserById(cmd.getFriendId())
+            .orElseThrow(() -> new UserNotFoundException("User not found: " + cmd.getFriendId()));
 
-        updateFriendsPort.addFriend(cmd.getUserId(), cmd.getFriendId());
+    updateFriendsPort.addFriend(cmd.getUserId(), cmd.getFriendId());
 
-        String description = "Friend added: " + cmd.getUserId() + " -> " + cmd.getFriendId();
-        publishUserEventPort.publishUserEvent(DomainEvent.now(
-                user.getId(),
-                EventType.FRIEND_ADDED,
-                description,
-                friend.getId(),
-                new FriendAddedEventData(
-                        user.getId(),
-                        friend.getId(),
-                        description
-                )
-        ));
-    }
+    String description = "Friend added: " + cmd.getUserId() + " -> " + cmd.getFriendId();
+    publishUserEventPort.publishUserEvent(
+        DomainEvent.now(
+            user.getId(),
+            EventType.FRIEND_ADDED,
+            description,
+            friend.getId(),
+            new FriendAddedEventData(user.getId(), friend.getId(), description)));
+  }
 }
